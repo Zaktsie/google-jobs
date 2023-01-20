@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import MainNav from "@/components/MainNav.vue";
+import { warnDeprecation } from "@vue/compiler-core";
 
 describe("MainNav", () => {
   it("Displays company name", () => {
@@ -41,17 +42,15 @@ describe("MainNav", () => {
   });
 
   describe("when user logs in", () => {
-    it("prompts user to  sign in", () => {
-      const wrapper = mount(MainNav, {
-        data() {
-          return {
-            isLoggedIn: true,
-          };
-        },
-      });
+    it("prompts user to  sign in", async () => {
+      const wrapper = mount(MainNav);
+      let profileImage = wrapper.find("[data-test='profile-image']");
+      expect(profileImage.exists().toBe(false));
+
       const loginButton = wrapper.find("[data-test='login-button']");
-      const profileImage = wrapper.find("[data-test='profile-image']");
-      expect(loginButton.exists()).toBe(false);
+      await loginButton.trigger("click");
+
+      profileImage = warnDeprecation.find("[data-test='profile-image']");
       expect(profileImage.exists()).toBe(true);
     });
   });
