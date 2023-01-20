@@ -14,55 +14,41 @@
 
           <ul class="flex h-full  p-0 m-0 list-none">
 
-            <li class="h-full">
 
-              <a href="" class="flex items-center h-full py-2.5">Teams</a>
+            <li v-for="menuItem in menuItems" :key="menuItem" class="h-full ml-9 first:ml-0"
+              data-test="main-nav-list-items">
 
-            </li>
-            <li class="h-full ml-9">
-
-              <a href="" class="flex items-center h-full py-2.5">Locations</a>
-
-            </li>
-            <li class="h-full ml-9">
-
-              <a href="" class="flex items-center h-full py-2.5">Life at Google</a>
-
-            </li>
-            <li class="h-full ml-9">
-
-              <a href="" class="flex items-center h-full py-2.5">How we Hire</a>
-
-            </li>
-            <li class="h-full ml-9">
-
-              <a href="" class="flex items-center h-full py-2.5">Students</a>
+              <a href="" class="flex items-center h-full py-2.5">{{ menuItem}}</a>
 
             </li>
 
-            <li class="h-full ml-9">
-
-              <a href="" class="flex items-center h-full py-2.5">Jobs</a>
-
-            </li>
           </ul>
 
         </nav>
-
-
+        <div class="flex items-center h-full ml-auto">
+          <profile-image v-if="isLoggedIn" data-test="profile-image" />
+          <action-button v-else data-test="login-button" />
+        </div>
       </div>
     </div>
   </header>
 </template>
 
 <script>
+import ActionButton from "@/components/ActionButton.vue"
+import ProfileImage from "@/components/ProfileImage.vue"
 export default {
   name: "MainNav",
+  components: {
+    ActionButton: ActionButton,
+    ProfileImage: ProfileImage,
+  },
   data() {
     return {
       company: "Google Job Portal",
       url: "https://careers.google.com",
-      menuItems: ["Teams", "Locations", "Life at Google", "How we hire", "Jobs"]
+      menuItems: ["Teams", "Locations", "Life at Google", "How we hire", "Students", "Jobs"],
+      isLoggedIn: false
     };
   },
 };
